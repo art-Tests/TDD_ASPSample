@@ -5,7 +5,7 @@ Class CartTest ' Extends TestCase
   Private target
 
   Public Function TestCaseNames()
-    TestCaseNames = Array("Buy_Book1_For_1_Should_Retun_100","Buy_Book1_For_1_And_Book2_For2_Should_Retun_190","Buy_Book123_For_1_Should_Retun_270")
+    TestCaseNames = Array("Buy_Book1_For_1_Should_Retun_100","Buy_Book1_For_1_And_Book2_For2_Should_Retun_190","Buy_Book123_For_1_Should_Retun_270","Buy_Book1234_For_1_Should_Retun_320")
   End Function
   
   Public Sub SetUp()
@@ -59,6 +59,23 @@ Class CartTest ' Extends TestCase
     dim actual : actual = target.Pay(Books)
     'assert'
     dim expected : expected = 270
+    oTestResult.AssertEquals expected, actual, "價格不同！"
+  End Sub
+
+  Public Sub Buy_Book1234_For_1_Should_Retun_320(oTestResult)
+    'arrange'
+    dim book1 : Set book1 = (New Book)("哈利波特2", 100, 2)
+    dim book2 : Set book2 = (New Book)("哈利波特1", 100, 1)
+    dim book3 : Set book3 = (New Book)("哈利波特3", 100, 3)
+    dim book4 : Set book4 = (New Book)("哈利波特4", 100, 4)
+    dim Books
+    Books = Array(book1,book2,book3,book4)
+
+    set target = new Cart
+    'act'
+    dim actual : actual = target.Pay(Books)
+    'assert'
+    dim expected : expected = 320
     oTestResult.AssertEquals expected, actual, "價格不同！"
   End Sub
 
