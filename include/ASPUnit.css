@@ -1,0 +1,26 @@
+body {
+  margin: 5px;
+}
+* {
+  font-size: 10pt;
+  font-family: Courier;
+}
+table#test-result {
+  border: 2px solid #000;
+  border-collapse: collapse;
+}
+#test-result th, #test-result td {
+  border: 1px solid #333;
+}
+th {
+  background-color: #EEE;
+}
+.warning {
+  background-color: #FF9;
+}
+.error {
+  background-color: #F99;
+}
+.success {
+  background-color: #3c3;
+}
