@@ -8,7 +8,7 @@ Class Cart
     end function
 
     public function Pay(iBooks)
-        Pay = 0
+        Pay = 100
     end function
 End Class
 %>
