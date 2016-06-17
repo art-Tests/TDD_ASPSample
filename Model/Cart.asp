@@ -34,6 +34,7 @@ Class Cart
             case 2      : discount = 0.95
             case 3      : discount = 0.9
             case 4      : discount = 0.8
+            case 5      : discount = 0.75
             case else   : discount = 1
         end select
         getDiscountByTypeCnt = discount
