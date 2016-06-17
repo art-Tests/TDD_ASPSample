@@ -6,5 +6,9 @@ Class Cart
     public default function Init()
         Set Init = Me
     end function
+
+    public function Pay(iBooks)
+        Pay = 0
+    end function
 End Class
 %>
