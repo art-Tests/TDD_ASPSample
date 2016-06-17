@@ -2,12 +2,17 @@
 <%
 '購物車'
 Class Cart
+
+    private isDebug
+
     '建構式'
     public default function Init()
         Set Init = Me
     end function
 
     public function Pay(iBooks)
+        isDebug = false
+
         '建立欄位，資料型態請參考http://www.w3schools.com/asp/ado_datatypes.asp
         dim bookTypeCnt,discount,result,thisGroupPay,isRunNext
         dim rs : set rs = server.createobject("adodb.recordset")
@@ -39,20 +44,21 @@ Class Cart
 
     private function getBookGroupPrice(ByRef bookGroup)
         dim bookTypeCnt,discount
-        'response.write "<hr/>"
-        'call showRs(bookGroup)
+        
+        call showRs(bookGroup)
         bookTypeCnt = getBookTypeCntByAllBooks(bookGroup)  '取得書籍種類數量'
         discount    = getDiscountByTypeCnt(bookTypeCnt) '取得本次購物的折扣'
-        'response.write "BookGroupPrice:<span style='color:red'>"&getTotalPrice(bookGroup,discount)&"</span><hr/>"
+        if isDebug then response.write "BookGroupPrice:<span style='color:red'>"&getTotalPrice(bookGroup,discount)&"</span><hr/>"
         getBookGroupPrice = getTotalPrice(bookGroup,discount)    '每一本書的價格合計'
     end function
 
     private sub showRs(ByRef bookGroup)
-        'response.write "RS CNT:"&bookGroup.recordcount&"<br/>"
+        if isDebug then response.write "<hr/>"
+        if isDebug then response.write "RS CNT:"&bookGroup.recordcount&"<br/>"
         bookGroup.moveFirst
         if not bookGroup.EOF then
             while not bookGroup.EOF
-                'response.write "Name:["&bookGroup("Name")&"] No:["&bookGroup("No")&"] Price:["&bookGroup("Price")&"]<br/>"
+                if isDebug then response.write "Name:["&bookGroup("Name")&"] No:["&bookGroup("No")&"] Price:["&bookGroup("Price")&"]<br/>"
                 bookGroup.movenext
             wend
         end if
