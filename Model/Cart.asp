@@ -9,6 +9,35 @@ Class Cart
 
     public function Pay(iBooks)
         dim bookTypeCnt,discount
+        bookTypeCnt = getBookTypeCntByAllBooks(iBooks)  '取得書籍種類數量'
+        discount    = getDiscountByTypeCnt(bookTypeCnt) '取得本次購物的折扣'
+        Pay         = getTotalPrice(iBooks,discount)    '每一本書的價格合計'
+    end function
+
+    private function getSinglePriceBy(originPrice,discount)
+        getSinglePriceBy = originPrice * discount
+    end function
+
+    private function getTotalPrice(ibooks,discount)
+        dim result : result = 0
+        dim i,book,thisBookPrice
+        for i = lbound(iBooks) to ubound(iBooks)
+            thisBookPrice = getSinglePriceBy(iBooks(i).GetPrice,discount)
+            result = thisBookPrice + result
+        next 
+        getTotalPrice = result
+    end function
+
+    private function getDiscountByTypeCnt(bookTypeCnt)
+        dim discount
+        select case bookTypeCnt
+            case 2      : discount = 0.95
+            case else   : discount = 1
+        end select
+        getDiscountByTypeCnt = discount
+    end function
+
+    private function getBookTypeCntByAllBooks(iBooks)
         dim rs : set rs = server.createobject("adodb.recordset")
         '建立欄位，資料型態請參考http://www.w3schools.com/asp/ado_datatypes.asp
         rs.Fields.Append "Name" , 202 , 10
@@ -26,7 +55,7 @@ Class Cart
         next 
         rs.Sort = "No"
         rs.moveFirst
-        bookTypeCnt = 0
+        dim bookTypeCnt :   bookTypeCnt = 0
         dim nowType :   nowType = 0
         dim lastType :  lastType = 0
         while not rs.EOF
@@ -41,22 +70,8 @@ Class Cart
         'response.write "BookTypeCnt:["&bookTypeCnt&"]<br/>"
         rs.close
         set rs = nothing
-
-        select case bookTypeCnt
-            case 2      : discount = 0.95
-            case else   : discount = 1
-        end select
-
-
-        dim result : result = 0
-        dim book,thisBookPrice
-        for i = lbound(iBooks) to ubound(iBooks)
-            thisBookPrice = (iBooks(i).GetPrice*discount)
-            result = thisBookPrice + result
-        next 
-        pay = result
+        getBookTypeCntByAllBooks = bookTypeCnt
     end function
-
 
 End Class
 
